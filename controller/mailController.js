@@ -1,4 +1,3 @@
-// server.js
 const sendEmail = require('../model/mailModel');
 
 async function sendMailController(req, res) {

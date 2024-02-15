@@ -1,25 +1,28 @@
-
 // controller/logInController.js
 
-const userModel = require('../model/loginModel');
+const { getCustomerByEmail } = require('../model/dbModel');
 
-exports.login = (req, res) => {
+async function login(req, res) {
     const { userEmail, password } = req.body;
 
-    // Check if email exists in the database
-    userModel.findByEmail(userEmail, (err, user) => {
-        if (err) {
-            console.error('Error finding user:', err);
-            return res.status(500).send('Internal Server Error');
+    try {
+        // Check if email exists in the database
+        let userInfo = await getCustomerByEmail(userEmail);
+
+        if (!userInfo) {
+            return res.status(401).send('Invalid email or password');
         }
 
-        if (!user || user.password !== password) {
-            // If user not found or password is incorrect
+        if (userInfo.password !== password) {
             return res.status(401).send('Invalid email or password');
         }
 
         // Redirect user to dashboard if login is successful
-        //res.redirect('/dashboard');
         res.sendFile('C:/Users/david/WebstormProjects/lognet/view/dashboard.html');
-    });
-};
+    } catch (error) {
+        console.error('Error during login:', error);
+        res.status(500).send('Internal server error');
+    }
+}
+
+module.exports = login;
