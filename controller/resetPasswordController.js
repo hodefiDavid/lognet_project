@@ -1,68 +1,34 @@
-const {getOtpByEmail, upsertCustomerPassword, upsertCustomerOTP} = require("../model/dbModel");
-const makeOTP = require("../model/otpModel");
+const {getOtpByEmail, updateCustomerPassword} = require("../model/dbModel");
 
-// async function resetPassword(req, res) {
-//     const { userEmail, action } = req.body;
-//
-//     if (action === 'reset') {
-//         const { OTPCode, newPassword } = req.body;
-//         // Perform reset password logic
-//         res.send('Password reset successfully.');
-//     } else if (action === 'sendOTP') {
-//         // Send OTP logic
-//         res.send({ message: 'OTP code sent to your email.' });
-//     } else {
-//         res.status(400).send('Invalid action');
-//     }
-// }
-//
-// module.exports = { resetPassword };
 
-async function resetPassword(req, res){
+async function resetPassword(req, res) {
+    const {userEmail,OTPCode,newPassword} = req.body;
 
-    const { userEmail, action } = req.body;
+    try {
+        // Check if email exists in the database
+        let userOtp = await getOtpByEmail(userEmail);
 
-    if (action === 'reset') {
-        const { OTPCode,newPassword } = req.body;
-        let user = await getOtpByEmail(userEmail);
-
-        // await upsertCustomerPassword(userEmail, newPassword)
-        // console.log("user.otp ="+ user.otp)
-        console.log("reset ")
-        // Perform reset password logic
-
-        res.send('Resetting password...');
-
-    } else if (action === 'sendOTP') {
-
-        console.log("sendOTP ")
-
-        let newOtpCode = await makeOTP();
+        if (!userOtp || userOtp.otpcode !== OTPCode) {
+            return res.status(401).send('Invalid email or OTPCode');
+        }
 
         const currentDate = new Date();
-        const dateString = currentDate.toISOString();
+        const loadedDate = new Date(userOtp.date);
 
-        await upsertCustomerOTP(userEmail,newOtpCode,dateString);
+        const differenceInMilliseconds = currentDate - loadedDate;
+        const differenceInMinutes = differenceInMilliseconds / (1000 * 60);
 
-        res.send({ message: 'OTP code sent to your email.' });
-
-    } else {
-        // Invalid action
-        res.status(400).send('Invalid action');
+        if(differenceInMinutes < 6) {
+            await updateCustomerPassword(userEmail,newPassword);
+        }else {
+            return res.status(401).send('OTP out of date, please consider to send it again');
+        }
+        res.sendFile('C:/Users/david/WebstormProjects/lognet/view/updateSuccessfully.html');
+    } catch (error) {
+        console.error('Error during sending OTP:', error);
+        res.status(500).send('Internal server error');
     }
 }
 
 
-
 module.exports = resetPassword;
-
-
-// Load the date back from the string
-// const loadedDate = new Date("2024-02-15T15:45:44.384Z");
-// const differenceInMilliseconds = currentDate - loadedDate;
-// const differenceInMinutes = differenceInMilliseconds / (1000 * 60);
-
-// console.log("differenceInMinutes = " + differenceInMinutes);  // Original date object
-// console.log(dateString);   // String representation
-// console.log(loadedDate);   // Loaded date object
-// Perform send OTP logic

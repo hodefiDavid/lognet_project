@@ -121,6 +121,7 @@ module.exports = {
     getOtpByEmail,
     getCityById,
     upsertCustomerPassword,
+    updateCustomerPassword,
     upsertCustomerOTP,
     getCustomerById
 };

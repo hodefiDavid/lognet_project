@@ -1,6 +1,6 @@
 // controller/logInController.js
 
-const {getCustomerByEmail} = require('../model/dbModel');
+const {getCustomerByEmail, upsertCustomerOTP} = require('../model/dbModel');
 const makeOTP = require("../model/otpModel");
 const sendEmail = require("../model/mailModel");
 
@@ -12,7 +12,7 @@ async function sendOTP(req, res) {
         let userInfo = await getCustomerByEmail(userEmail);
 
         if (!userInfo) {
-            return res.status(401).send('Invalid email or password');
+            return res.status(401).send('Invalid email');
         }
         let otpCode = await makeOTP();
         const subject = "Your OTP Code for Password Reset";
@@ -30,6 +30,10 @@ async function sendOTP(req, res) {
             "Thank you,\n" +
             "The LogNet Team";
 
+        const currentDate = new Date();
+        const dateString = currentDate.toISOString();
+
+        await upsertCustomerOTP(userEmail, otpCode, dateString)
         await sendEmail(userEmail, subject, text);
 
         res.sendFile('C:/Users/david/WebstormProjects/lognet/view/reset-password.html');
