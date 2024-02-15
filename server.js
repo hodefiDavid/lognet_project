@@ -1,6 +1,10 @@
 // Importing required modules
 const express = require('express');
 const loginController = require("./controller/logInController");
+const sendOTPController = require("./controller/sendOTPController");
+
+const resetPasswordController = require("./controller/resetPasswordController");
+
 const bodyParser = require('body-parser');
 const sendMailController = require("./controller/mailController");
 const weatherInfo = require("./controller/weatherController");
@@ -51,8 +55,8 @@ app.get('/getotp', async (req, res) => {
 // ######################################################################################################################
 
 app.post('/signIn', loginController);
-
-app.post('/resetPassword', loginController);
+app.post('/sendOTP', sendOTPController);
+app.post('/resetPassword', resetPasswordController);
 
 
 // Start the server and listen on the specified port

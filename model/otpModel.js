@@ -1,4 +1,4 @@
-const getCityById = require("./dbModel");
+const {getCityById} = require("./dbModel");
 const getTmpCWeatherAPI = require("./weatherModel");
 const assert = require("assert");
 

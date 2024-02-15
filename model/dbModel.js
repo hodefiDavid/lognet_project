@@ -63,13 +63,64 @@ async function getCustomerById(id) {
     }
 }
 
+async function updateCustomerPassword(email, newPassword) {
+    const query = 'UPDATE customer SET password = $1 WHERE email = $2';
+    const values = [newPassword, email];
 
+    try {
+        await pool.query(query, values);
+        console.log('Password updated successfully');
+    } catch (error) {
+        console.error('Error updating password:', error);
+        throw error;
+    }
+}
 
+async function upsertCustomerPassword(email, newPassword) {
+    const query = `
+        INSERT INTO customer (email, password)
+        VALUES ($1, $2)
+        ON CONFLICT (email) DO UPDATE SET password = $2
+    `;
+    const values = [email, newPassword];
 
+    try {
+        await pool.query(query, values);
+        console.log('Password updated successfully');
+    } catch (error) {
+        console.error('Error updating password:', error);
+        throw error;
+    }
+}
+
+async function upsertCustomerOTP(email, otp, date) {
+    console.log('Upserting OTP for email:', email, 'OTP:', otp, 'Date:', date);
+    const checkQuery = 'SELECT COUNT(*) FROM otp WHERE email = $1';
+    const updateQuery = 'UPDATE otp SET otpcode = $2, date = $3 WHERE email = $1';
+    const insertQuery = 'INSERT INTO otp (email, otpcode, date) VALUES ($1, $2, $3)';
+
+    try {
+        const { rows } = await pool.query(checkQuery, [email]);
+        const rowCount = parseInt(rows[0].count);
+
+        if (rowCount > 0) {
+            await pool.query(updateQuery,[email, otp, date]);
+            console.log('OTP updated successfully');
+        } else {
+            await pool.query(insertQuery,[email, otp, date]);
+            console.log('OTP inserted successfully');
+        }
+    } catch (error) {
+        console.error('Error upserting OTP:', error);
+        throw error;
+    }
+}
 
 module.exports = {
     getCustomerByEmail,
     getOtpByEmail,
-    getCustomerById,
-    getCityById
+    getCityById,
+    upsertCustomerPassword,
+    upsertCustomerOTP,
+    getCustomerById
 };

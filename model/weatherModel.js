@@ -2,7 +2,6 @@
 const axios = require('axios');
 const {WEATHER_API_KEY} = require("../env");
 
-
 async function getTmpCWeatherAPI(city) {
     try {
         let _api = "https://api.weatherapi.com/v1/current.json?";
@@ -17,7 +16,6 @@ async function getTmpCWeatherAPI(city) {
         throw error;
     }
 }
-
 
 
 module.exports = getTmpCWeatherAPI;
