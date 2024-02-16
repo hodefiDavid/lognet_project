@@ -1,16 +1,15 @@
 // Importing required modules
 const express = require('express');
-const loginController = require("./controller/logInController");
-const sendOTPController = require("./controller/sendOTPController");
-
-const resetPasswordController = require("./controller/resetPasswordController");
-
 const bodyParser = require('body-parser');
+const getCityById = require("./model/dbModel");
+
+const loginController = require("./controller/logInController");
+const signUpController = require("./controller/signUpController");
 const sendMailController = require("./controller/mailController");
 const weatherInfo = require("./controller/weatherController");
 const makeOTP = require("./model/otpModel");
-const getCityById = require("./model/dbModel");
-
+const sendOTPController = require("./controller/sendOTPController");
+const resetPasswordController = require("./controller/resetPasswordController");
 
 // Creating an instance of express
 const app = express();
@@ -25,11 +24,18 @@ app.use(express.urlencoded({extended: true}));
 // Serve static files from the 'public' directory
 app.use(express.static('view/public'));
 
-
 // Define a route handler for the root path
 app.get('/', (req, res) => {
     res.sendFile('C:/Users/david/WebstormProjects/lognet/view/public/logIn.html');
 });
+
+app.post('/signUp', signUpController);
+
+app.post('/signIn', loginController);
+
+app.post('/sendOTP', sendOTPController);
+
+app.post('/resetPassword', resetPasswordController);
 
 
 // ######################################################################################################################
@@ -53,10 +59,6 @@ app.get('/getotp', async (req, res) => {
 });
 
 // ######################################################################################################################
-
-app.post('/signIn', loginController);
-app.post('/sendOTP', sendOTPController);
-app.post('/resetPassword', resetPasswordController);
 
 
 // Start the server and listen on the specified port

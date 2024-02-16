@@ -116,10 +116,24 @@ async function upsertCustomerOTP(email, otp, date) {
     }
 }
 
+async function createNewCustomer(email, password, firstName, lastName) {
+    const query = 'INSERT INTO customer (email, password, firstname, lastname) VALUES ($1, $2, $3, $4) RETURNING *';
+    const values = [email, password, firstName, lastName];
+
+    try {
+        const { rows } = await pool.query(query, values);
+        return rows[0];
+    } catch (error) {
+        console.error('Error creating customer:', error);
+        throw error;
+    }
+}
+
 module.exports = {
     getCustomerByEmail,
     getOtpByEmail,
     getCityById,
+    createNewCustomer,
     upsertCustomerPassword,
     updateCustomerPassword,
     upsertCustomerOTP,
