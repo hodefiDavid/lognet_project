@@ -1,6 +1,6 @@
 # My API Poject
 
-Welcome to My Website! This website provides various features such as getting weather forecasts, user authentication (login/signup), changing passwords, and sending emails with OTP (One-Time Password). The website is connected to a PostgreSQL database to store user information.
+Welcome to My Poject! This Poject provides various features such as getting weather forecasts, user authentication (login/signup), changing passwords, and sending emails with OTP (One-Time Password). The Poject is connected to a PostgreSQL database to store user information.
 
 ## Features
 
