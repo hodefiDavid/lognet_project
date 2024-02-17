@@ -69,24 +69,9 @@ async function updateCustomerPassword(email, newPassword) {
 
     try {
         await pool.query(query, values);
-        console.log('Password updated successfully');
-    } catch (error) {
-        console.error('Error updating password:', error);
-        throw error;
-    }
-}
-
-async function upsertCustomerPassword(email, newPassword) {
-    const query = `
-        INSERT INTO customer (email, password)
-        VALUES ($1, $2)
-        ON CONFLICT (email) DO UPDATE SET password = $2
-    `;
-    const values = [email, newPassword];
-
-    try {
-        await pool.query(query, values);
-        console.log('Password updated successfully');
+        let st = 'Password updated successfully';
+        console.log(st);
+        return st;
     } catch (error) {
         console.error('Error updating password:', error);
         throw error;
@@ -102,7 +87,6 @@ async function upsertCustomerOTP(email, otp, date) {
     try {
         const { rows } = await pool.query(checkQuery, [email]);
         const rowCount = parseInt(rows[0].count);
-
         if (rowCount > 0) {
             await pool.query(updateQuery,[email, otp, date]);
             console.log('OTP updated successfully');
@@ -110,6 +94,7 @@ async function upsertCustomerOTP(email, otp, date) {
             await pool.query(insertQuery,[email, otp, date]);
             console.log('OTP inserted successfully');
         }
+        return "OTP updated successfully";
     } catch (error) {
         console.error('Error upserting OTP:', error);
         throw error;
@@ -134,7 +119,6 @@ module.exports = {
     getOtpByEmail,
     getCityById,
     createNewCustomer,
-    upsertCustomerPassword,
     updateCustomerPassword,
     upsertCustomerOTP,
     getCustomerById
