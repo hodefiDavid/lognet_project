@@ -5,8 +5,6 @@ const getCityById = require("./model/dbModel");
 
 const loginController = require("./controller/logInController");
 const signUpController = require("./controller/signUpController");
-const sendMailController = require("./controller/mailController");
-const weatherInfo = require("./controller/weatherController");
 const makeOTP = require("./model/otpModel");
 const sendOTPController = require("./controller/sendOTPController");
 const resetPasswordController = require("./controller/resetPasswordController");
