@@ -44,6 +44,41 @@ a {
     margin: 15px 0;
 }
 
+/*.forgot-password-link {*/
+/*    background-color: #e7e7e7; !* Light background *!*/
+/*    padding: 5px 10px;*/
+/*    border: 1px solid #ddd;*/
+/*    border-radius: 4px;*/
+/*    color: #333;*/
+/*    text-decoration: none; !* Remove underline *!*/
+/*}*/
+
+/*.forgot-password-link:hover {*/
+/*    background-color: #ccc;*/
+/*    border-color: #bbb;*/
+/*}*/
+
+/*.forgot-password-link {*/
+/*    color: #007bff; // Default color*/
+/*}*/
+
+/*.forgot-password-link:hover {*/
+/*    color: #28a745; // Hover color*/
+/*}*/
+
+.forgot-password-link {
+    text-decoration: underline;
+    color: blue; /* Or any desired default color */
+}
+
+.forgot-password-link:hover {
+    text-decoration: underline solid; /* Make underline thicker */
+    color: #FF416C; /* Change color on hover */
+    cursor: pointer;
+}
+
+
+
 button {
     border-radius: 20px;
     /*border: 1px solid #FF4B2B;*/
@@ -58,6 +93,7 @@ button {
     text-transform: uppercase;
     transition: transform 80ms ease-in;
 }
+
 
 button:active {
     transform: scale(0.95);

@@ -16,7 +16,7 @@ router.get('/sendEmail', async (req, res) => {
     const text = req.query.text;
     try {
         await sendEmail(to, subject, text)
-        res.send("To: " + to + "\nSubject: " + "\nText: " + text);
+        res.send("\nTo: " + to + "\nSubject: " +subject+ "\nText: " + text);
     } catch (error) {
         console.log(error)
     }
@@ -117,6 +117,3 @@ router.get('/upsertCustomerOTP', async (req, res) => {
 });
 
 module.exports = router;
-
-//     upsertCustomerOTP,
-//     getCustomerById}

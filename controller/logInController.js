@@ -9,8 +9,10 @@ async function login(req, res) {
         // Check if email exists in the database
         let userInfo = await getCustomerByEmail(userEmail);
 
-        if (!userInfo) {
-            return res.status(401).send('Invalid email or password');
+        if (!userInfo || userEmail.length === 0) {
+            return res.status(401).json({ error: 'Invalid email or password' });
+
+            // return res.status(401).send('Invalid email or password');
         }
 
         if (userInfo.password !== password) {

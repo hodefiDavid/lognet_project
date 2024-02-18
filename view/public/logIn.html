@@ -14,20 +14,20 @@
             <h1>Create Account</h1>
 
             <span>or use your email for registration</span>
-            <input type="text" placeholder="Name" />
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
+            <input type="text" placeholder="Name"/>
+            <input type="email" placeholder="Email"/>
+            <input type="password" placeholder="Password"/>
             <button>Sign Up</button>
+
         </form>
     </div>
     <div class="form-container sign-in-container">
-        <form action="/signIn" method="POST">
+        <form id="signIn-form" action="/signIn" method="POST">
             <h1>Sign in</h1>
             <p></p>
-            <input type="email" name="userEmail" placeholder="Email" />
-            <input type="password" name="password" placeholder="Password" />
-            <a href="sendOTP.html">Forgot your password or need to change it?</a>
-<!--            <a href="rp.html">Forgot your password or need to change it?</a>-->
+            <input type="email" name="userEmail" placeholder="Email"/>
+            <input type="password" name="password" placeholder="Password"/>
+            <a href="sendOTP.html" class="forgot-password-link" >Forgot your password or need to change it?</a>
 
             <button type="submit">Sign In</button>
         </form>
@@ -60,6 +60,8 @@
         - Read how I created this and how you can join the challenge
         <a target="_blank" href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/">here</a>.
     </p>
-</footer></body>
+</footer>
+
+</body>
 </html>
 

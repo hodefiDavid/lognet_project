@@ -46,25 +46,3 @@ app.listen(port, () => {
 });
 
 
-// ######################################################################################################################
-// // Define a route handler sendmail
-// app.post('/sendmail', sendMailController);
-//
-// app.get('/weatherinfo', weatherInfo);
-// // Define a route handler for the root path
-// app.get('/city', async (req, res) => {
-//     let otp = await getCityById(req.query.id);
-//     console.log("req.body.id = "+ req.query.id)
-//     console.log(otp)
-//
-//     res.send('your otp code is ' + otp.name);
-// });
-//
-// // Define a route handler for the root path
-// app.get('/getotp', async (req, res) => {
-//     let otp = await makeOTP();
-//     res.send('your otp code is ' + otp);
-// });
-
-// ######################################################################################################################
-
